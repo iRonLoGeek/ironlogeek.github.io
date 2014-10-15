@@ -1,0 +1,111 @@
+<!doctype HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Prímszámok</title>
+    <!-- Bootstra.386 által inspirált megjelenés -->
+    <style>
+      body{
+        background: #000084;
+        color: #ffffff;
+      }
+      h1{
+        background: #00aaaa;
+        border-style: double;
+        border-color: #ffffff;
+      }
+      .box{
+        border-style: double;
+        border-color: #ffffff;
+      }
+      input{
+        background: #bbbbbb;
+        color: #000000;
+        border: 2px solid #000000;
+      }
+      #upbutton{
+        background: #bbbbbb;
+        border-style: double;
+        border-color: #ffffff;
+        position: fixed;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        text-decoration: none;
+        bottom: 0px;
+        right: 0px;
+        color: #000000;
+        font-weight: bold;
+      }
+      .msg{
+        border-style: double;
+        border-color: #ffffff;
+        color: #000000;
+        background: #bbbbbb;
+      }
+      .warning{
+        border-style: double;
+        border-color: #ffffff;
+        background: #840000;
+        color: #bbbb00;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+      function printPrimesUntil(max){
+        $("#output").empty();
+        $("#output").hide();
+        $(".warning").hide();
+        if(isNaN(max)||max<=0){
+          $("#warnNaN").show();
+          return;
+        }
+        /*if(250000<max){
+          $("#warnHuge").show();
+          return;
+        }*/
+        $("#output").show();
+        var sieve={};
+        for(var i=2;i<=max;i++){
+          if(!(i in sieve)){
+            for(var j=i;j<=max;j+=i){
+              sieve[j]=1;
+            }
+            $("#output").append(i.toString()+"<br>");
+          }
+        }
+      }
+      $(function(){
+        $("#upperlimit").keypress(function(e){
+          if(e.which==13){
+            $("#hitEnter").hide();
+            printPrimesUntil($("#upperlimit").val());
+          }else{
+            $("#hitEnter").show();
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1 id="top">Prímszám listázó</h1>
+    <div class="box">
+      Prímszámok keresése
+      <input type="number" id="upperlimit">
+      -ig.
+    </div>
+    <div class="msg" style="display: none" id="hitEnter">
+      Üssön ENTERt a listázáshoz!
+    </div>
+    <div class="box" style="display: none" id="output">
+    </div>
+    <a id="upbutton" href="#top">&uArr;</a>
+    <div class="warning" style="display: none" id="warnNaN">
+      Nem sikerült pozitív számként értelmezni a felső korlátot.
+    </div>
+    <div class="warning" style="display: none" id="warnHuge">
+      Ennyire magas felső korlát kezelésére nem alaklmas ez a webalkalmazás.
+    </div>
+  </body>
+</html>
